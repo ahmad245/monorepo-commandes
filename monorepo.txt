@@ -1,0 +1,55 @@
+1- create folder for project 
+ mkdir monorepo-project 
+ cd monorepo-project 
+
+2- initialize yarn for create package.json
+yarn init -yp
+
+
+
+3- remove main.js and add private true and workspace to package.json
+{
+  "name": "monorepo-traning",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "app"
+  ],
+  "license": "MIT",
+}
+
+packages will be created automatically by lerna in step 4
+app this is the project we will create  in step 6
+
+4-Then, add lerna and microbundle as workspace dev dependencies and initialize lerna: for create lerna.json and packages folder 
+yarn add lerna microbundle --dev -W
+lerna init --independent
+
+Lerna creates the packages folder by default and a lerna.json file. 
+The independent flag sets the version field in lerna.json, which tells lerna to version the packages independently.
+
+
+5-Next, modify lerna.json to integrate with yarn:
+{
+  "version": "independent",
+  "npmClient": "yarn",
+  "useWorkspaces": true
+}
+
+6- in root the folder  create-react-app app
+If you look inside demo/node_modules you’ll notice there’s not much in there.
+That’s because yarn installed the dependencies in the workspace root node_modules folder to be shared by any packages that need them.
+
+
+7-In the root package.json, add one script to rule them all:
+"scripts": {
+  "start": "lerna run start --parallel"
+},
+
+
+8-yarn start
+Lerna will kick off the start script (in parallel) for every package. Kill it
+
+9-
+
